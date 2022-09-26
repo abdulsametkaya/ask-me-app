@@ -11,6 +11,7 @@ import com.app.askme.exceptions.ConflictException;
 import com.app.askme.exceptions.messages.ErrorMessage;
 import com.app.askme.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +21,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
 
-    UserRepository userRepository;
-    UserMapper userMapper;
+    private UserRepository userRepository;
+    private UserMapper userMapper;
 
 
     public List<UserDTO> getAllUsers() {

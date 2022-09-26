@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AskMeResponse {
-    boolean success;
-    String message;
+    private boolean success;
+    private String message;
 }

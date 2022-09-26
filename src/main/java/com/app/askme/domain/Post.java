@@ -15,6 +15,7 @@ public class Post {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private Long UserId;

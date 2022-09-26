@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -21,12 +20,14 @@ public class UserController {
 
     private UserService userService;
 
+    // http://localhost:8080/user/all
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAllUsers(){
         List<UserDTO> users=userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
+    // http://localhost:8080/user/register
     @PostMapping("/register")
     public ResponseEntity<AskMeResponse> createUser(@RequestBody RegisterRequest registerRequest){
 
@@ -37,12 +38,14 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    // http://localhost:8080/user/all/{userId}
     @GetMapping("/all/{userId}")
     public ResponseEntity<UserDTO> getOneUser(@PathVariable Long userId){
        UserDTO user =  userService.getOneUser(userId);
         return ResponseEntity.ok(user);
     }
 
+    // http://localhost:8080/user/update/{userId}
     @PatchMapping("/update/{userId}")
     public ResponseEntity<AskMeResponse> updateOneUser(@PathVariable Long userId, @RequestBody UpdateUserRequest user){
         userService.updateOneUser(userId,user);
@@ -52,18 +55,18 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity<AskMeResponse> updatePassword(HttpServletRequest httpServletRequest, @RequestBody UpdatePasswordRequest password){
+    // http://localhost:8080/user/update
+    @PatchMapping("/password/{userId}")
+    public ResponseEntity<AskMeResponse> updatePassword(@PathVariable Long userId, @RequestBody UpdatePasswordRequest password){
 
-        Long id = (Long) httpServletRequest.getAttribute("id");
-
-        userService.updateUserPassword(id,password);
+        userService.updateUserPassword(userId,password);
         AskMeResponse response = new AskMeResponse();
         response.setMessage(ResponseMessage.PASSWORD_CHANGED_MESSAGE);
         response.setSuccess(true);
         return ResponseEntity.ok(response);
     }
 
+    // http://localhost:8080/user/{id}/auth
     @DeleteMapping("/{id}/auth")
     public ResponseEntity<AskMeResponse> deleteUser(@PathVariable Long id){
         userService.deleteOneUserbyId(id);
