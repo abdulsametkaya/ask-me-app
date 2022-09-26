@@ -6,4 +6,5 @@ public class ErrorMessage {
     public final static String USER_NOT_FOUND_MESSAGE="User with id %d not found";
 
 
+
 }

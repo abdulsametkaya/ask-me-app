@@ -4,13 +4,14 @@ import com.app.askme.domain.User;
 import com.app.askme.dto.UserDTO;
 import com.app.askme.dto.mapper.UserMapper;
 import com.app.askme.dto.request.RegisterRequest;
+import com.app.askme.dto.request.UpdatePasswordRequest;
+import com.app.askme.dto.request.UpdateUserRequest;
+import com.app.askme.exceptions.BadRequestException;
 import com.app.askme.exceptions.ConflictException;
 import com.app.askme.exceptions.messages.ErrorMessage;
 import com.app.askme.repository.UserRepository;
-import com.sun.xml.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,19 +27,19 @@ public class UserService {
     public List<UserDTO> getAllUsers() {
 
         List<User> users= userRepository.findAll();
-        return userMapper.usersToUserDTOs(users);
+        return userMapper.usersToUserDtos(users);
     }
 
     public void register(RegisterRequest registerRequest) {
 
-        if (userRepository.existsByEMail(registerRequest.getEMail())){
-            throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST,registerRequest.getEMail()));
+        if (userRepository.existsByEmail(registerRequest.getEmail())){
+            throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST,registerRequest.getEmail()));
         }
 
         User user = new User();
 
-        user.setUserName(registerRequest.getUserName());
-        user.setEMail(registerRequest.getEMail());
+        user.setUsername(registerRequest.getUsername());
+        user.setEmail(registerRequest.getEmail());
         user.setPassword(registerRequest.getPassword());
         userRepository.save(user);
     }
@@ -47,25 +48,48 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() ->
          new ConflictException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId)));
 
-        return userMapper.userToUserDTO(user);
+        return userMapper.userToUserDto(user);
 
     }
-
-    // TODO: 21.09.2022  burada kaldım.
-
     
-    public User updateOneUser(Long userId, User newUser) {
+    public UserDTO updateOneUser(Long userId, UpdateUserRequest newUser) {
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isPresent()) {
             User foundUser = user.get();
-            foundUser.setUserName(newUser.getUserName());
-            foundUser.setPassword(newUser.getPassword());
+            foundUser.setUsername(newUser.getUsername());
+            foundUser.setEmail(newUser.getEmail());
+
             userRepository.save(foundUser);
-            return foundUser;
+            return userMapper.userToUserDto(foundUser);
         } else {
-            return null;
+            throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId));
         }
 
     }
+
+    public UserDTO updateUserPassword(Long userId, UpdatePasswordRequest newPassword) {
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            User foundUser = user.get();
+            foundUser.setPassword(newPassword.getPassword());
+            userRepository.save(foundUser);
+            return userMapper.userToUserDto(foundUser);
+        } else {
+            throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId));
+        }
+
+    }
+
+    public void deleteOneUserbyId(Long userId){
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            userRepository.deleteById(user.get().getId());
+        }else {
+            throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId));
+        }
+    }
+
 }

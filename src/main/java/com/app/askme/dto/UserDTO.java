@@ -19,18 +19,4 @@ public class UserDTO {
 
     private String password;
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PostDTO {
-
-        private Long id;
-
-        private String userName;
-
-        private String eMail;
-
-        private String password;
-    }
 }

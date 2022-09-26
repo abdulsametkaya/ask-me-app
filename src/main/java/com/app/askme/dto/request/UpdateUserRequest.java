@@ -9,11 +9,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Getter
 @Setter
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
-public class RegisterRequest {
+@NoArgsConstructor
+public class UpdateUserRequest {
 
     @Size(max = 50)
     @NotNull(message = "Please provide your username")
@@ -24,7 +24,4 @@ public class RegisterRequest {
     @NotNull(message = "Please provide your email")
     private String email;
 
-    @Size(min = 4, max = 20,message="Please Provide Correct Size for Password")
-    @NotNull(message = "Please provide your password")
-    private String password;
 }
