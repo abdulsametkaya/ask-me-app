@@ -11,7 +11,6 @@ import com.app.askme.exceptions.ConflictException;
 import com.app.askme.exceptions.messages.ErrorMessage;
 import com.app.askme.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +25,6 @@ public class UserService {
 
 
     public List<UserDTO> getAllUsers() {
-
         List<User> users= userRepository.findAll();
         return userMapper.usersToUserDtos(users);
     }
@@ -50,7 +48,6 @@ public class UserService {
          new ConflictException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId)));
 
         return userMapper.userToUserDto(user);
-
     }
     
     public UserDTO updateOneUser(Long userId, UpdateUserRequest newUser) {
@@ -66,7 +63,6 @@ public class UserService {
         } else {
             throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId));
         }
-
     }
 
     public UserDTO updateUserPassword(Long userId, UpdatePasswordRequest newPassword) {
@@ -80,7 +76,6 @@ public class UserService {
         } else {
             throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId));
         }
-
     }
 
     public void deleteOneUserbyId(Long userId){
