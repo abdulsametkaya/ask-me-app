@@ -25,7 +25,7 @@ public class Post {
 
     @Lob
     @Column(columnDefinition = "text")
-    String text;
+    private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
