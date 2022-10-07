@@ -1,9 +1,6 @@
 package com.app.askme.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,6 +9,7 @@ import javax.validation.constraints.Size;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class UpdatePasswordRequest {
 
     @Size(min = 4, max = 20,message="Please Provide Correct Size for Password")

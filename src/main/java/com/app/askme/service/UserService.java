@@ -25,14 +25,14 @@ public class UserService {
 
 
     public List<UserDTO> getAllUsers() {
-        List<User> users= userRepository.findAll();
+        List<User> users = userRepository.findAll();
         return userMapper.usersToUserDtos(users);
     }
 
     public void register(RegisterRequest registerRequest) {
 
-        if (userRepository.existsByEmail(registerRequest.getEmail())){
-            throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST,registerRequest.getEmail()));
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+            throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, registerRequest.getEmail()));
         }
 
         User user = new User();
@@ -43,13 +43,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserDTO getOneUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() ->
-         new ConflictException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId)));
+    public UserDTO getOneUserById(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ConflictException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, userId)));
 
         return userMapper.userToUserDto(user);
     }
-    
+
     public UserDTO updateOneUser(Long userId, UpdateUserRequest newUser) {
         Optional<User> user = userRepository.findById(userId);
 
@@ -61,7 +60,7 @@ public class UserService {
             userRepository.save(foundUser);
             return userMapper.userToUserDto(foundUser);
         } else {
-            throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId));
+            throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, userId));
         }
     }
 
@@ -74,17 +73,17 @@ public class UserService {
             userRepository.save(foundUser);
             return userMapper.userToUserDto(foundUser);
         } else {
-            throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId));
+            throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, userId));
         }
     }
 
-    public void deleteOneUserbyId(Long userId){
+    public void deleteOneUserbyId(Long userId) {
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isPresent()) {
             userRepository.deleteById(user.get().getId());
-        }else {
-            throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,userId));
+        } else {
+            throw new BadRequestException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, userId));
         }
     }
 

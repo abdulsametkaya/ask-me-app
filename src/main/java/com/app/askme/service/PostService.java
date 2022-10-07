@@ -36,13 +36,11 @@ public class PostService {
         if (userId.isPresent()){
             posts = postRepository.findByUserId(userId.get());
 
-            return postMapper.postsToPostDtoss(posts);
         }else {
             posts = postRepository.findAll();
 
-            return postMapper.postsToPostDtoss(posts);
         }
-
+        return postMapper.postsToPostDtos(posts);
     }
 
     public PostDTO getOnePostById(Long postId) {
@@ -57,7 +55,7 @@ public class PostService {
 
         Post post = new Post();
 
-        UserDTO user= userService.getOneUser(postRequest.getUserId());
+        UserDTO user= userService.getOneUserById(postRequest.getUserId());
 
         post.setTitle(postRequest.getTitle());
         post.setText(postRequest.getText());

@@ -1,9 +1,6 @@
 package com.app.askme.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Size;
 
@@ -11,6 +8,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class UpdatePostRequest {
 
     @Size(max = 30)

@@ -41,7 +41,7 @@ public class UserController {
     // http://localhost:8080/user/all/{userId}
     @GetMapping("/all/{userId}")
     public ResponseEntity<UserDTO> getOneUser(@PathVariable Long userId){
-       UserDTO user =  userService.getOneUser(userId);
+       UserDTO user =  userService.getOneUserById(userId);
         return ResponseEntity.ok(user);
     }
 

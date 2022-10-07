@@ -25,7 +25,7 @@ public class Comment {
     @JoinColumn(name = "post_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private Post postId;
+    private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -35,7 +35,7 @@ public class Comment {
 
     @Lob
     @Column(columnDefinition = "text")
-    String text ;
+    private String text ;
 
 
 
