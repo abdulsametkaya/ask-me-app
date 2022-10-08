@@ -3,9 +3,6 @@ package com.app.askme.service;
 import com.app.askme.domain.Comment;
 import com.app.askme.domain.Post;
 import com.app.askme.domain.User;
-import com.app.askme.dto.mapper.CommentMapper;
-import com.app.askme.dto.mapper.PostMapper;
-import com.app.askme.dto.mapper.UserMapper;
 import com.app.askme.dto.request.CommentRequest;
 import com.app.askme.dto.request.CommentUpdateRequest;
 import com.app.askme.exceptions.BadRequestException;
@@ -24,7 +21,6 @@ import java.util.Optional;
 public class CommentService {
 
     CommentRepository commentRepository;
-    CommentMapper commentMapper;
     UserRepository userRepository;
     PostRepository postRepository;
 
@@ -37,7 +33,7 @@ public class CommentService {
         } else if (userId.isPresent()) {
             comment = commentRepository.findByUserId(userId.get());
         } else if (postId.isPresent()) {
-            comment = commentRepository.findByPostId(userId.get());
+            comment = commentRepository.findByPostId(postId.get());
         } else {
             comment = commentRepository.findAll();
         }
@@ -60,7 +56,7 @@ public class CommentService {
         Post post = postRepository.findById(commentRequest.getPostId()).orElseThrow(()->
                 new BadRequestException(String.format(ErrorMessage.POST_NOT_FOUND_MESSAGE)));
 
-        Comment comment = commentMapper.commentRequestToComment(commentRequest);
+        Comment comment = new Comment();
 
         comment.setUser(user);
         comment.setPost(post);
